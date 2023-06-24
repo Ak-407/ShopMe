@@ -1,0 +1,40 @@
+<%- include('partials/header') %>
+
+<div class="main">
+  <div class="contactcontainer">  
+    <form id="contact" action="/adminn" method="post" enctype="multipart/form-data">
+      <h3>Seller Page</h3>
+      <h4>Upload Your Prduct Details with Image</h4>
+      <fieldset>
+        <input placeholder="Your Name" type="text" tabindex="1" required autofocus name="name">
+      </fieldset>
+      <fieldset>
+        <input placeholder="Your Email Address" type="email" tabindex="2" required name="email">
+      </fieldset>
+      <fieldset>
+        <input placeholder="Your Phone Number" type="tel" tabindex="3" required name="phone">
+      </fieldset>
+      <fieldset>
+        <textarea placeholder="Type your message here...." tabindex="4" required></textarea>
+      </fieldset>
+      <fieldset>
+        <input placeholder="Your Product Name" type="text" tabindex="5" required name="productName">
+      </fieldset>
+      <fieldset>
+        <input placeholder="Your Product Price" type="text" tabindex="6" required name="productPrice">
+      </fieldset>
+      <fieldset>
+        <input type="file" name="file">
+      </fieldset>
+        <button type="submit" role="button"  class="btn">submit</button>
+        
+    </form>
+  </div>
+  </div>
+<!-- <form action="/adminn" method="post" enctype="multipart/form-data">
+  <input type="file" name="file">
+  <button type="submit" role="button"  class="btn">submit</button>
+
+</form> -->
+
+<%- include('partials/footer') %>

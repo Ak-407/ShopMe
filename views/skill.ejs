@@ -1,0 +1,38 @@
+<%- include('partials/header') %>
+
+<div class="main">
+  <div class="contactcontainer">  
+    <form id="contact" action="/skill" method="post" enctype="multipart/form-data">
+      <h3>Skilled Professionals   Platform for Jobs</h3>
+      <h4>Send us your Details</h4>
+      <fieldset>
+        <input placeholder="Your Name" type="text" tabindex="1" required autofocus name="name">
+      </fieldset>
+      <fieldset>
+        <input placeholder="Your Profession" type="text" tabindex="1" required autofocus name="profession">
+      </fieldset>
+      <fieldset>
+        <input placeholder="Your Experience (in numbers)" type="text" tabindex="1" required autofocus name="experience">
+      </fieldset>
+      <fieldset>
+        <input placeholder="Price per Day" type="text" tabindex="2" required name="price">
+      </fieldset>
+      <fieldset>
+        <input placeholder="Your Email Address" type="email" tabindex="2" required name="email">
+      </fieldset>
+      <fieldset>
+        <input placeholder="Your Phone Number" type="tel" tabindex="3" required name="phone">
+      </fieldset>
+        <button type="submit" role="button"  class="btn">submit</button>
+        
+        <h6>Your Details are Safe</h6>
+    </form>
+  </div>
+  </div>
+<!-- <form action="/adminn" method="post" enctype="multipart/form-data">
+  <input type="file" name="file">
+  <button type="submit" role="button"  class="btn">submit</button>
+
+</form> -->
+
+<%- include('partials/footer') %>
