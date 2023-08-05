@@ -1,0 +1,91 @@
+<!-- rzp_test_FCY7ZRu9Ix7mw5 -->
+<%- include('partials/header') %>
+<div id="RP">
+    <section class="features" id="features">
+    <h1 class="heading">Razor<span>pay</span></h1>
+</section>
+
+<div class="col-sm-4">
+    <div class="card">
+      <div class="card-body">
+          Amount: ₹ <span id="result"></span>
+      </div>
+      <div class="card-body">
+          Shipping Fee: ₹ 0
+      </div>
+      <div class="card-body">
+          convectional fee: ₹ 55
+      </div>
+      <div class="card-body">
+          <h1>------------------</h1>
+      </div>
+      <div class="card-body">
+          <h1>Total Amount: <span id="grandTotal"></span></h1>
+      </div>
+  
+    </div>
+  </div>
+
+
+  <form id="razorpay-form" action="/payment" method="POST">
+
+    <input type="hidden" id="amount" name="amount">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <button type="button" id="razorpay-btn" class="btn btn-dark">
+      <i class="fa-solid fa-bag-shopping fa-shake"></i> Pay With Razorpay
+    </button>
+  </form>
+</div>
+<script>
+    var total = parseInt(document.getElementById("result").innerHTML = localStorage.getItem("textvalues"));
+    const grandTotal=total + 55;
+    document.getElementById("grandTotal").innerHTML = "₹ " + grandTotal;
+    
+    // Set the total amount to the hidden input field for Razorpay
+    var totalAmount = grandTotal;
+    document.getElementById("result").value = totalAmount; 
+    console.log(totalAmount);
+
+  // Handle Razorpay payment button click
+  document.getElementById("razorpay-btn").addEventListener("click", function () {
+    var options = {
+      key: "rzp_test_FCY7ZRu9Ix7mw5", // Replace with your Razorpay API key
+      amount: totalAmount * 100, // Amount in paise (100 paise = 1 INR)
+      currency: "INR",
+      name: "Enonn Payment's",
+      description: "Payment for Products/Services",
+      image: "https://media.licdn.com/dms/image/D4D03AQHE58UY-1zCMQ/profile-displayphoto-shrink_400_400/0/1668623305106?e=1695859200&v=beta&t=jQfBOy_ZZycbtXg3r2jcKWryXxfcKJnc-_CdCt4rIiI", // Replace with your website logo URL
+      handler: function (response) {
+        // This function will be called after successful payment
+        // You can perform further actions, like saving the transaction details in the backend
+        // and redirecting the user to a success page.
+        console.log(response); // Response object contains transaction details
+        // You can also redirect the user to a success page using JavaScript:
+        window.location.href = "/"; // Redirect to success page
+      },
+      prefill: {
+        // email: document.querySelector('input[name="username"]').value,
+        // name: document.querySelector('input[name="name"]').value,
+        // contact: document.querySelector('input[name="number"]').value,
+        // You can prefill more customer details if available
+      },
+      notes: {
+        // You can add additional notes for the payment
+      },
+      theme: {
+        color: "#F37254", // Replace with your desired color
+      },
+    };
+
+    // Create a Razorpay instance with the options
+    var rzp = new Razorpay(options);
+
+    // Open the Razorpay checkout form
+    rzp.open();
+  });
+</script>
+
+
+
+<%- include('partials/footer') %>
+upi payment failed code this fix this

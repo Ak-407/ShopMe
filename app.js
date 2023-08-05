@@ -5,6 +5,9 @@ const ejs = require("ejs");
 const mongoose = require("mongoose");
 const md5 = require("md5");
 let multer = require("multer")
+const Razorpay = require('razorpay');
+
+
 
 const app = express();
 mongoose.set('strictQuery', true);
@@ -46,13 +49,26 @@ const UserSchema = mongoose.Schema({
   username:String,
   password:String,
 });
+const Payment = new mongoose.Schema({
+  email:String,
+  name:String,
+  number:Number,
+  city:String,
+  address:String,
+  country:String,
+  pincode:Number
+});
 
-
+const razorpay = new Razorpay({
+  key_id: 'rzp_test_FCY7ZRu9Ix7mw5',
+  key_secret: 'SCdwoI1Vu7ngtCbd6jtZt94O',
+});
 
 
 const file = mongoose.model("file", File);
 const skill = mongoose.model("skill", Skill);
 const user = mongoose.model("user", UserSchema);
+const payment = mongoose.model("payment", Payment);
 
 // const cart = [];
 app.get("/", function(req, res) {
@@ -70,10 +86,10 @@ app.post("/",function(req,res){
       res.render("header", { recordss: foundItems, skillName: skillItems });
     });
   });
+  
   search=req.body.search1
   console.log(search)
 })
-
 app.get("/register", function(req,res){
   res.render("register");
 });
@@ -93,6 +109,37 @@ app.get("/skill",function(req,res){
   res.render("skill");
   
 })
+app.get("/raz",function(req,res){
+  res.render("raz");
+})
+
+
+
+
+app.get("/payment", function(req, res) {
+      res.render("payment");
+    });
+app.post("/payment",function(req,res){
+  const paymentperson = new payment({
+    email: req.body.username,
+    name: req.body.name,
+    number:req.body.number,
+    city:req.body.city,
+    address: req.body.address,
+    country:req.body.country,
+    pincode:req.body.pincode
+  })
+  paymentperson.save(function(err, foundItems) {
+      if (!err) {
+          res.redirect("raz"); // Redirect to the home page
+      } else {
+          res.send(err);
+      }
+  });
+})
+
+
+
 
 
 app.post("/register", function(req, res) {

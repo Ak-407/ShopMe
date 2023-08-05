@@ -1,0 +1,84 @@
+<%- include('partials/header') %>
+
+<div class="container mt-5">
+  <h1>Payments</h1>
+
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="card">
+        <div class="card-body">
+            <form id="razorpay-form" action="/payment" method="POST">
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" class="form-control" name="username">
+            </div>
+            <div class="form-group">
+              <label for="textContent">Full Name</label>
+              <input type="text" class="form-control" name="name">
+            </div>
+            <div class="form-group">
+                <label for="Number">Phone Number</label>
+                <input type="number" class="form-control" name="number">
+              </div>
+              <div class="form-group">
+                <label for="textContent">City</label>
+                <input type="text" class="form-control" name="city">
+              </div>
+              <div class="form-group">
+                <label for="textContent">Full Address </label>
+                <input type="text" class="form-control" name="address">
+              </div>
+              <div class="form-group">
+                <label for="textContent">Country</label>
+                <input type="text" class="form-control" name="country">
+              </div>
+              <div class="form-group">
+                <label for="Number">Pincode</label>
+                <input type="number" class="form-control" name="pincode">
+              </div>
+            
+              <button type="submit" id="razorpay-btn" class="btn btn-dark">
+                <i class="fa-solid fa-bag-shopping fa-shake"></i> Pay With Razorpay
+              </button>
+        </form>
+        </div>
+        </div>
+        </div>
+
+    <div class="col-sm-4">
+      <div class="card">
+        <div class="card-body">
+            Amount: ₹ <span id="result"></span>
+        </div>
+        <div class="card-body">
+            Shipping Fee: ₹ 0
+        </div>
+        <div class="card-body">
+            convectional fee: ₹ 55
+        </div>
+        <div class="card-body">
+            <h1>------------------</h1>
+        </div>
+        <div class="card-body">
+            <h1>Total Amount: <span id="grandTotal"></span></h1>
+        </div>
+    
+      </div>
+    </div>
+
+  </div>
+</div>
+<script>
+    var total = parseInt(document.getElementById("result").innerHTML = localStorage.getItem("textvalues"));
+    const grandTotal=total + 55;
+    document.getElementById("grandTotal").innerHTML = "₹ " + grandTotal;
+    
+    // Set the total amount to the hidden input field for Razorpay
+    var totalAmount = grandTotal;
+    document.getElementById("result").value = totalAmount; 
+    console.log(totalAmount);
+  
+    
+  
+  </script>
+<%- include('partials/footer') %>

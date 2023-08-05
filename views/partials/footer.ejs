@@ -98,47 +98,8 @@
       },
     });
 
-    document.addEventListener('DOMContentLoaded', function() {
-  var productsContainer = document.querySelector('.products');
-  var cartContainer = document.querySelector('.shopping-cart');
 
-  productsContainer.addEventListener('click', addToCart);
-  cartContainer.addEventListener('click', removeFromCart);
+    
 
-  function addToCart(event) {
-    if (event.target.classList.contains('btn')) {
-      var button = event.target;
-      var productBox = button.closest('.box');
-      var productName = productBox.querySelector('h1').innerText;
-      var productPrice = productBox.querySelector('.price').innerText;
-
-      var cartItem = document.createElement('div');
-      cartItem.classList.add('box');
-
-      var cartItemContent = `
-        <i class="fa fa-trash"></i>
-        <img src="${productBox.querySelector('img').src}">
-        <div class="content">
-          <h3>${productName}</h3>
-          <span class="price">${productPrice}</span>
-          <span class="quantity">Qty: 1</span>
-        </div>
-      `;
-      cartItem.innerHTML = cartItemContent;
-
-      cartContainer.appendChild(cartItem);
-    }
-  }
-
-  function removeFromCart(event) {
-    if (event.target.classList.contains('fa-trash')) {
-      var trashIcon = event.target;
-      var cartItem = trashIcon.closest('.box');
-      cartItem.remove();
-    }
-  }
-});
-
-        
-        </script>
+</script>
 </html>

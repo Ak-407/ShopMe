@@ -7,7 +7,7 @@
     <a href="#home">Home</a>
     <a href="#features">Features</a>
     <a href="#products">Products</a>
-    <a href="#professionals">Professionals</a>
+    <a href="#professionals">Services</a>
     <a href="#review">Review</a>
 
 </nav>
@@ -26,36 +26,12 @@
 </form>
 
 <div class="shopping-cart">
-    <div class="box">
-    <i class="fa fa-trash"></i>
-    <img src= "../photo/Spartan-Chris-Gayle-Player-Edition-Cricket-Bat-3.jpg">
-    <div class="content">
-    <h3>Spartan Bat</h3>
-    <span class="price"> ₹4,999/-</span>
-    <span class="quantity">Qty : 1</span>
-    </div> </div>
-
-    <div class="box">
-        <i class="fa fa-trash"></i>
-        <img src= "../photo/download.jpeg">
-        <div class="content">
-        <h3>Football</h3>
-        <span class="price"> ₹4,999/-</span>
-        <span class="quantity">Qty : 1</span>
-        </div> </div>
-
-    <div class="box">
-        <i class="fa fa-trash"></i>
-        <img src= "../photo/download (1).jpeg">
-        <div class="content">
-        <h3>Badminton</h3>
-        <span class="price"> ₹4,999/-</span>
-        <span class="quantity">Qty : 1</span>
-        </div> </div>
-        <div class="total">total:  ₹1498/-</div>
-        <a href="#" class= "btn">Checkout</a>
-    </div>
+    <div class="cart-items"></div>
+    <div class="total">Total: ₹0.00</div>
+    <a href="/payment" class="btn" onclick="passvalues()">Checkout</a>
 </div>
+
+
 </header>
 
 <section class="home" id="home">
@@ -139,15 +115,15 @@
     </div>
 </section>
 <section class="products" id="professionals">
-    <h1 class="heading">Skilled: <span>Professionals</span></h1>
+    <h1 class="heading"><span>Services</span></h1>
     <div class="swiper product-slider">
         
         <div class="swiper-wrapper">
             <% if (skillName && skillName.length > 0) { %>
                 <% skillName.forEach(function(skill) { %>
                     <div class="swiper-slide box">
+                        <h1 style="color: red;">Profession: <%= skill.profession %></h1>
                         <h1>Name: <%= skill.name %></h1>
-                        <h3>Profession: <%= skill.profession %></h1>
                         <h3>Experience: <%= skill.experience %> Years</h1>
                         <div class="price">₹<%= skill.price %>/-</div>
                         <div class="stars">
@@ -262,7 +238,103 @@
     </div>
  </footer>
 
+<script>
+    var globalTotal = 0;
 
+    
+document.addEventListener('DOMContentLoaded', function () {
+var cartItemsContainer = document.querySelector('.cart-items');
+var totalElement = document.querySelector('.total');
+var cartItems = [];
+
+function addToCart(itemName, itemPrice, imageSrc) {
+    var existingCartItem = cartItems.find(item => item.name === itemName);
+
+    if (existingCartItem) {
+        existingCartItem.quantity++;
+    } else {
+        cartItems.push({
+            name: itemName,
+            price: itemPrice,
+            quantity: 1,
+            image: imageSrc
+        });
+    }
+
+    updateCartTotal();
+    displayCartItems(); // Call the function to display cart items
+}
+
+function removeFromCart(event) {
+    if (event.target.classList.contains('fa-trash')) {
+        var trashIcon = event.target;
+        var cartItem = trashIcon.closest('.box');
+        var itemNameElement = cartItem.querySelector('.content h3'); // Use more specific selector
+
+        if (itemNameElement) {
+            var itemName = itemNameElement.innerText;
+            console.log('Item to be removed:', itemName); // Debug statement
+            cartItems = cartItems.filter(item => item.name !== itemName);
+            console.log('Updated cartItems:', cartItems); // Debug statement
+            cartItem.remove();
+            updateCartTotal();
+        }
+    }
+}
+
+function displayCartItems() {
+    cartItemsContainer.innerHTML = ''; // Clear the existing cart items
+
+    cartItems.forEach(item => {
+        var cartItem = document.createElement('div');
+        cartItem.classList.add('box');
+        var cartItemContent = `
+          <i class="fa fa-trash"></i>
+          <img src="${item.image}">
+          <div class="content">
+            <h3>${item.name}</h3>
+            <span class="price">₹${item.price}/-</span>
+            <span class="quantity">${item.quantity}</span>
+          </div>
+        `;
+        cartItem.innerHTML = cartItemContent;
+        cartItemsContainer.appendChild(cartItem);
+    });
+}
+function updateCartTotal() {
+    var total = 0;
+
+    cartItems.forEach(item => {
+        total += item.price * item.quantity;
+    });
+
+    // Update the format here
+    totalElement.textContent = 'Total: ₹' + total.toFixed(2);
+    console.log('Total value:', total); // Debug statement
+    globalTotal=total;
+    return total;
+}
+
+var productsContainer = document.querySelector('.products');
+productsContainer.addEventListener('click', handleAddToCart);
+cartItemsContainer.addEventListener('click', removeFromCart);
+
+function handleAddToCart(event) {
+    if (event.target.classList.contains('btn')) {
+        var button = event.target;
+        var productBox = button.closest('.box');
+        var productName = productBox.querySelector('h1').innerText;
+        var productPrice = parseFloat(productBox.querySelector('.price').innerText.replace('₹', '').replace('/-', ''));
+        var imageSrc = productBox.querySelector('img').src;
+        addToCart(productName, productPrice, imageSrc); // Pass all three parameters
+    }
+}
+});
+
+function passvalues(){
+localStorage.setItem("textvalues",globalTotal);
+}
+</script>
 
 
 <%- include('partials/footer') %>
