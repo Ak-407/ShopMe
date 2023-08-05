@@ -35,6 +35,16 @@ section{
   padding: 2rem, 9%;
 }
 
+.red{
+  color:#ff0000 ;
+  font-size: 0.8rem;
+}
+.CB{
+  font-size: 13px;
+  line-height: 13px;
+}
+
+
 #RP{
   display: flex;
   align-items: center;
@@ -561,7 +571,7 @@ font-size: 50%;
 #contact {
   background: #F9F9F9;
   padding: 25px;
-  margin: 150px 0;
+  margin: 80px 0;
   box-shadow: 0 0 60px 5px rgba(0, 0, 0, 0.2), 0 5px 40px 0 rgba(0, 0, 0, 0.24);
 }
 
