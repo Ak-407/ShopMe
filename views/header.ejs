@@ -132,7 +132,7 @@
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star-half"></i>
                         </div>
-                        <button onclick="location.href='https://wa.me/+916006466047'" type="button" class="btn">Hire Me</button>
+                        <button onclick="hireProfessional('<%= skill.profession %>', '<%= skill.name %>', '<%= skill.experience %>', '<%= skill.price %>');" type="button" class="btn">Hire Me</button>
                     </div>
                 <% }) %>
             <% } %>
@@ -334,6 +334,23 @@ function handleAddToCart(event) {
 function passvalues(){
 localStorage.setItem("textvalues",globalTotal);
 }
+function hireProfessional(profession, name, experience, price) {
+        // Create a formatted message
+        var message = "Hi, I'm interested in hiring you for the following skill:\n\n";
+        message += "Profession: " + profession + "\n";
+        message += "Name: " + name + "\n";
+        message += "Experience: " + experience + " Years\n";
+        message += "Price: ₹" + price + "/-\n\n";
+        message += "Could you please provide more information?";
+
+        // Encode the message for the URL
+        var encodedMessage = encodeURIComponent(message);
+
+        // Open WhatsApp chat with the pre-filled message
+        window.open("https://wa.me/+916006466047?text=" + encodedMessage, "_blank");
+    }
+</script>
+
 </script>
 
 
