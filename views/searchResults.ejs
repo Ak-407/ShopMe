@@ -1,0 +1,159 @@
+<%- include('partials/header') %>
+
+
+    <header class="header">
+        <a href="" class="logo"><i class="fa-solid fa-basket-shopping" style="color: #247e00;"></i>Ezon</a>
+        <nav class="navbar">
+            <a href="#home">Home</a>
+            <a href="#features">Features</a>
+            <a href="#products">Products</a>
+            <a href="#professionals">Services</a>
+            <a href="#review">Review</a>
+        </nav>
+        <div class="icons">
+            <div class="fa fa-bars" id="menu-btn"></div>
+            <div class="fa fa-search" id="search-btn"></div>
+            <div class="fa fa-shopping-cart" id="cart-btn"></div>
+            <a class="fa fa-user" href="/login" role="button"></a>
+        </div>
+
+        <form action="/search" method="post" class="search-form">
+            <input type="search" name="search1" id="search-box" placeholder="Search Here...">
+            <button type="submit" for="search-box" class="fa fa-search"></button>
+        </form>
+
+        <div class="shopping-cart">
+            <div class="cart-items"></div>
+            <div class="total">Total: ₹0.00</div>
+            <a href="/payment" class="btn" onclick="passvalues()">Checkout</a>
+        </div>
+    </header>
+
+    <h1>Search Results</h1>
+    <% if (results && results.length > 0) { %>
+    <% results.forEach(function(item) { %>
+    <section class="products" id="products">
+        <div class="swiper product-slider">
+            <div class="swiper-slide box">
+                <img src="/photo/<%= item.image %>" alt="<%= item.productName %>">
+                <h3><%= item.productName %></h3>
+                <p>Price: ₹<%= item.productPrice %>/-</p>
+                <button class="btn">Add To Cart</button>
+            </div>
+        </div>
+    </section>
+    <% }) %>
+    <% } else { %>
+    <p>No matching products found.</p>
+    <% } %>
+
+    <script>
+        var globalTotal = 0;
+
+        document.addEventListener('DOMContentLoaded', function () {
+    var cartItemsContainer = document.querySelector('.cart-items');
+    var totalElement = document.querySelector('.total');
+    var cartItems = [];
+
+    function addToCart(itemName, itemPrice, imageSrc) {
+        var existingCartItem = cartItems.find(item => item.name === itemName);
+
+        if (existingCartItem) {
+            existingCartItem.quantity++;
+        } else {
+            cartItems.push({
+                name: itemName,
+                price: itemPrice,
+                quantity: 1,
+                image: imageSrc
+            });
+        }
+
+        updateCartTotal();
+        displayCartItems();
+    }
+
+    function removeFromCart(event) {
+        if (event.target.classList.contains('fa-trash')) {
+            var trashIcon = event.target;
+            var cartItem = trashIcon.closest('.box');
+            var itemNameElement = cartItem.querySelector('.content h3');
+
+            if (itemNameElement) {
+                var itemName = itemNameElement.innerText;
+                cartItems = cartItems.filter(item => item.name !== itemName);
+                cartItem.remove();
+                updateCartTotal();
+            }
+        }
+    }
+
+    function displayCartItems() {
+        cartItemsContainer.innerHTML = '';
+
+        cartItems.forEach(item => {
+            var cartItem = document.createElement('div');
+            cartItem.classList.add('box');
+            var cartItemContent = `
+            <i class="fa fa-trash"></i>
+            <img src="${item.image}">
+            <div class="content">
+                <h3>${item.name}</h3>
+                <span class="price">₹${item.price}/-</span>
+                <span class="quantity">${item.quantity}</span>
+            </div>
+            `;
+            cartItem.innerHTML = cartItemContent;
+            cartItemsContainer.appendChild(cartItem);
+        });
+    }
+
+    function updateCartTotal() {
+        var total = 0;
+
+        cartItems.forEach(item => {
+            total += item.price * item.quantity;
+        });
+
+        totalElement.textContent = 'Total: ₹' + total.toFixed(2);
+        globalTotal = total;
+        return total;
+    }
+
+    var productsContainer = document.querySelectorAll('.products'); // Select all product containers
+
+    // Add event listener for each "Add To Cart" button
+    productsContainer.forEach(container => {
+        container.addEventListener('click', function (event) {
+            if (event.target.classList.contains('btn')) {
+                var button = event.target;
+                var productBox = button.closest('.box');
+                var productName = productBox.querySelector('h3').innerText;
+                var productPrice = parseFloat(productBox.querySelector('p').innerText.replace('Price: ₹', '').replace('/-', ''));
+                var imageSrc = productBox.querySelector('img').src;
+                addToCart(productName, productPrice, imageSrc);
+            }
+        });
+    });
+});
+
+
+        function passvalues() {
+            localStorage.setItem("textvalues", globalTotal);
+        }
+
+        function hireProfessional(profession, name, experience, price) {
+            var message = "Hi, I'm interested in hiring you for the following skill:\n\n";
+            message += "Profession: " + profession + "\n";
+            message += "Name: " + name + "\n";
+            message += "Experience: " + experience + " Years\n";
+            message += "Price: ₹" + price + "/-\n\n";
+            message += "Could you please provide more information?";
+
+            var encodedMessage = encodeURIComponent(message);
+            window.open("https://wa.me/+916006466047?text=" + encodedMessage, "_blank");
+        }
+    </script>
+
+
+<%- include('partials/footer') %>
