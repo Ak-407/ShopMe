@@ -235,7 +235,21 @@ app.post("/login", function(req,res){
     
 
         
-
+  app.post("/search", function(req, res) {
+    const searchTerm = req.body.search1;
+  
+    // Perform a MongoDB query to find items that match the search term
+    file.find({ productName: { $regex: searchTerm, $options: 'i' } }, function(err, foundItems) {
+      if (err) {
+        console.log(err);
+        res.send("Error occurred during the search.");
+      } else {
+        res.render("searchResults", { results: foundItems, recordss: foundItems }); // Pass the 'recordss' variable
+      }
+    });
+  });
+  
+  
 
 
 
